@@ -48,3 +48,30 @@ module.exports.login = (req, res, next) => {
       next(err);
     });
 };
+
+module.exports.getUser = (req, res, next) => {
+  const { _id } = req.user;
+  User.find({ _id })
+    .then((users) => res.status(httpConstants.HTTP_STATUS_OK).send(users))
+    .catch(next);
+};
+
+module.exports.updateUser = (req, res, next) => {
+  const { name, email } = req.body;
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, email },
+    { new: true, runValidators: true }
+  )
+    .orFail()
+    .then((user) => res.status(httpConstants.HTTP_STATUS_OK).send(user))
+    .catch((err) => {
+      if (err instanceof mongoose.Error.ValidationError) {
+        next(new BadRequestError(err.message));
+      } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
+        next(new NotFoundError("Пользователь не найден"));
+      } else {
+        next(err);
+      }
+    });
+};
