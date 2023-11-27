@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
+const mongoose = require("mongoose");
+// const validator = require("validator");
 
 const movieSchema = new mongoose.Schema(
   {
@@ -28,9 +28,11 @@ const movieSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator(v) {
-          return /https?:\/\/(www\.)?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+\#?$/i.test(v); // eslint-disable-line
+          return /https?:\/\/(www\.)?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+\#?$/i.test(
+            v
+          ); // eslint-disable-line
         },
-        message: 'Введите URL',
+        message: "Введите URL",
       },
     },
     trailerLink: {
@@ -38,9 +40,11 @@ const movieSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator(v) {
-          return /https?:\/\/(www\.)?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+\#?$/i.test(v); // eslint-disable-line
+          return /https?:\/\/(www\.)?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+\#?$/i.test(
+            v
+          ); // eslint-disable-line
         },
-        message: 'Введите URL',
+        message: "Введите URL",
       },
     },
     thumbnail: {
@@ -48,12 +52,16 @@ const movieSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator(v) {
-          return /https?:\/\/(www\.)?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+\#?$/i.test(v); // eslint-disable-line
+          return /https?:\/\/(www\.)?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+\#?$/i.test(
+            v
+          ); // eslint-disable-line
         },
-        message: 'Введите URL',
+        message: "Введите URL",
       },
     },
     owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
       required: true,
     },
     movieId: {
@@ -69,7 +77,7 @@ const movieSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
-module.exports = mongoose.model('movie', movieSchema);
+module.exports = mongoose.model("movie", movieSchema);
