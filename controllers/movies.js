@@ -1,9 +1,9 @@
-const httpConstants = require("http2").constants;
-const mongoose = require("mongoose");
-const Movie = require("../models/movie");
-const BadRequestError = require("../errors/BadRequestError");
-const NotFoundError = require("../errors/NotFoundError");
-const ForbiddenError = require("../errors/ForbiddenError");
+const httpConstants = require('http2').constants;
+const mongoose = require('mongoose');
+const Movie = require('../models/movie');
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundError = require('../errors/NotFoundError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
@@ -51,15 +51,14 @@ module.exports.createMovie = (req, res, next) => {
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id)
-    .orFail(new NotFoundError("Карточка не найдена"))
+    .orFail(new NotFoundError('Карточка не найдена'))
     .then((movie) => {
-      if (movie.owner.toString() !== req.user._id)
-        return next(new ForbiddenError("Нет доступа для удаления карточки"));
+      if (movie.owner.toString() !== req.user._id) { return next(new ForbiddenError('Нет доступа для удаления карточки')); }
       return Movie.deleteOne(movie).then(() => res.send({ data: movie }));
     })
     .catch((err) => {
-      if (err.name === "CastError") {
-        return next(new BadRequestError("Переданы некорректные данные"));
+      if (err.name === 'CastError') {
+        return next(new BadRequestError('Переданы некорректные данные'));
       }
       return next(err);
     });

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-// const validator = require("validator");
+const mongoose = require('mongoose');
+const { urlRegex } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema(
   {
@@ -28,11 +28,9 @@ const movieSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator(v) {
-          return /https?:\/\/(www\.)?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+\#?$/i.test(
-            v
-          ); // eslint-disable-line
+          return urlRegex.test(v);
         },
-        message: "Введите URL",
+        message: 'Введите URL',
       },
     },
     trailerLink: {
@@ -40,11 +38,9 @@ const movieSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator(v) {
-          return /https?:\/\/(www\.)?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+\#?$/i.test(
-            v
-          ); // eslint-disable-line
+          return urlRegex.test(v);
         },
-        message: "Введите URL",
+        message: 'Введите URL',
       },
     },
     thumbnail: {
@@ -52,16 +48,14 @@ const movieSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator(v) {
-          return /https?:\/\/(www\.)?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+\#?$/i.test(
-            v
-          ); // eslint-disable-line
+          return urlRegex.test(v);
         },
-        message: "Введите URL",
+        message: 'Введите URL',
       },
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
       required: true,
     },
     movieId: {
@@ -77,7 +71,7 @@ const movieSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
-module.exports = mongoose.model("movie", movieSchema);
+module.exports = mongoose.model('movie', movieSchema);
