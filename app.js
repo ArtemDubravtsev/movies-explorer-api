@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const centerHandlerError = require('./middlewares/centerHandlerError');
 
 const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/moviesdb' } = process.env;
 
@@ -45,12 +46,6 @@ app.use(errorLogger);
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send({
-    message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
-  });
-  next();
-});
+app.use(centerHandlerError);
 
 app.listen(PORT);

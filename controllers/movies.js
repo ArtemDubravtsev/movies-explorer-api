@@ -51,10 +51,10 @@ module.exports.createMovie = (req, res, next) => {
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id)
-    .orFail(new NotFoundError('Карточка не найдена'))
+    .orFail(new NotFoundError('Фильм не найден'))
     .then((movie) => {
       if (movie.owner.toString() !== req.user._id) {
-        return next(new ForbiddenError('Нет доступа для удаления карточки'));
+        return next(new ForbiddenError('Нет доступа для удаления'));
       }
       return Movie.deleteOne(movie).then(() => res.send({ data: movie }));
     })
