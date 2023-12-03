@@ -37,11 +37,11 @@ app.use(limiter);
 
 app.use('/', require('./routes/index'));
 
-app.use(errorLogger);
-
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
 });
+
+app.use(errorLogger);
 
 app.use(errors());
 
