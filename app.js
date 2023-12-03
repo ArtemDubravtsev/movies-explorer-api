@@ -5,7 +5,6 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const centerHandlerError = require('./middlewares/centerHandlerError');
 
@@ -37,10 +36,6 @@ app.use(requestLogger);
 app.use(limiter);
 
 app.use('/', require('./routes/index'));
-
-app.use('*', (req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
-});
 
 app.use(errorLogger);
 
