@@ -53,8 +53,8 @@ module.exports.login = (req, res, next) => {
 
 module.exports.getUser = (req, res, next) => {
   const { _id } = req.user;
-  User.find({ _id })
-    .then((users) => res.status(httpConstants.HTTP_STATUS_OK).send(users))
+  User.findById({ _id })
+    .then((user) => res.status(httpConstants.HTTP_STATUS_OK).send(user))
     .catch(next);
 };
 
